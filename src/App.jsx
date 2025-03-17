@@ -12,6 +12,7 @@ import TestimonialsSection from "./components/TestimonialsSection"
 import ContactSection from "./components/ContactSection"
 import Footer from "./components/Footer"
 import AboutSection from "./components/AboutSection"
+import BlogSection from "./components/BlogSection"
 
 // Sample project data
 const projectsData = [
@@ -211,6 +212,7 @@ function App() {
                   <SkillsSection />
                   
                   <ProjectsGrid projects={projectsData.filter((p) => p.featured)} />
+                    <BlogSection/>
                   <TestimonialsSection />
                   <ContactSection />
                 </>
