@@ -25,13 +25,14 @@ const Navbar = () => {
       // Determine active section based on scroll position
       const sections = ["home", "projects", "about", "testimonials", "contact"];
       
-      for (const section of sections) {
-        const element = document.getElementById(section);
+      // Find the section that is currently in view
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
           // If the section is in view (with some buffer for better UX)
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
+          if (rect.top <= 150 && rect.bottom >= 100) {
+            setActiveSection(sectionId);
             break;
           }
         }
@@ -61,14 +62,23 @@ const Navbar = () => {
       // Close the menu first
       setIsMenuOpen(false);
       
-      // Scroll to the element
+      // Get the navbar height to offset the scroll
+      const navbar = document.querySelector('header');
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      
+      // Calculate the element's position
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      
+      // Scroll to the element with offset
       window.scrollTo({
-        top: element.offsetTop - 80, // Offset for the navbar height
+        top: elementPosition - navbarHeight,
         behavior: "smooth"
       });
       
       // Update active section
       setActiveSection(id);
+    } else {
+      console.error(`Element with id "${id}" not found`);
     }
   };
 
