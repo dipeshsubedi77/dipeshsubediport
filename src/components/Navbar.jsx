@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Moon, Sun, Github, Linkedin } from "lucide-react"
+import { Menu, X, Moon, Sun, Github, Linkedin } from 'lucide-react'
 import { useTheme } from "./ThemeProvider"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
   const { isDarkMode, toggleTheme } = useTheme()
   const location = useLocation()
 
@@ -19,6 +20,21 @@ const Navbar = () => {
         setIsScrolled(true)
       } else {
         setIsScrolled(false)
+      }
+
+      // Determine active section based on scroll position
+      const sections = ["home", "projects", "about", "testimonials", "contact"];
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // If the section is in view (with some buffer for better UX)
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section);
+            break;
+          }
+        }
       }
     }
 
@@ -32,19 +48,29 @@ const Navbar = () => {
   }, [location])
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Projects", path: "/projects" },
-    { name: "About", path: "/about" },
-    { name: "Blog", path: "/blog" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", id: "home" },
+    { name: "Projects", id: "projects" },
+    { name: "About", id: "about" },
+    { name: "Testimonials", id: "testimonials" },
+    { name: "Contact", id: "contact" },
   ]
 
-  const isActive = (path) => {
-    if (path === "/") {
-      return location.pathname === path
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      // Close the menu first
+      setIsMenuOpen(false);
+      
+      // Scroll to the element
+      window.scrollTo({
+        top: element.offsetTop - 80, // Offset for the navbar height
+        behavior: "smooth"
+      });
+      
+      // Update active section
+      setActiveSection(id);
     }
-    return location.pathname.startsWith(path)
-  }
+  };
 
   return (
     <header
@@ -52,39 +78,50 @@ const Navbar = () => {
         isScrolled ? "py-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm" : "py-6 bg-transparent"
       }`}
     >
-      <div className="container-custom mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-center mx-auto">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/" className="font-playfair text-2xl font-bold tracking-tight transition-colors">
+            <a 
+              href="#home" 
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("home");
+              }}
+              className="font-playfair text-2xl font-bold tracking-tight transition-colors"
+            >
               D-<span className="text-gray-500 dark:text-gray-400">Pace</span>
-            </Link>
+            </a>
           </div>
 
           {/* Desktop Navigation - Centered */}
           <nav className="hidden md:flex items-center justify-center flex-1">
             <div className="flex items-center space-x-1 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.id);
+                  }}
                   className="relative px-4 py-2 text-sm font-medium rounded-full transition-colors"
                 >
                   <span
-                    className={`relative z-10 ${isActive(link.path) ? "text-white dark:text-gray-900" : "text-gray-700 dark:text-gray-300"}`}
+                    className={`relative z-10 ${activeSection === link.id ? "text-white dark:text-gray-900" : "text-gray-700 dark:text-gray-300"}`}
                   >
                     {link.name}
                   </span>
 
                   {/* Active background pill */}
-                  {isActive(link.path) && (
+                  {activeSection === link.id && (
                     <motion.span
                       className="absolute inset-0 bg-black dark:bg-white rounded-full -z-0"
                       layoutId="navbar-active-pill"
                       transition={{ type: "spring", duration: 0.6 }}
                     />
                   )}
-                </Link>
+                </a>
               ))}
             </div>
           </nav>
@@ -167,20 +204,24 @@ const Navbar = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
           >
-            <div className="container-custom mx-auto px-4 py-4">
+            <div className="container-center mx-auto py-4">
               <nav className="flex flex-col space-y-4">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
+                  <a
+                    key={link.id}
+                    href={`#${link.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.id);
+                    }}
                     className={`text-lg py-2 px-4 rounded-md transition-colors ${
-                      isActive(link.path)
+                      activeSection === link.id
                         ? "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50"
                     }`}
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 ))}
 
                 {/* Social Icons in Mobile Menu */}
@@ -214,4 +255,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
