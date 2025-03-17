@@ -1,6 +1,10 @@
 @import "tailwindcss";
 /* Add this to your existing index.css file */
 
+:root{
+  background: #101828;
+}
+
 @keyframes bounce-slow {
   0%,
   100% {
