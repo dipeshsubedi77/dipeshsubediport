@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Download, Mail, MapPin, GraduationCap, Briefcase } from "lucide-react"
+import profilePicture from '../assets/pp.png';
 
 const AboutSection = () => {
   const [activeTab, setActiveTab] = useState("story")
@@ -254,7 +255,7 @@ const AboutSection = () => {
                 <div className="aspect-[4/5] bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 rounded-2xl p-3 shadow-xl backdrop-blur-sm border border-white/20 dark:border-white/10">
                   <div className="w-full h-full rounded-xl overflow-hidden">
                     <img
-                      src="/dipeshsubediport\src\assets\pp.png"
+                      src={profilePicture}
                       alt="Dipesh Subedi"
                       className="w-full h-full object-cover"
                     />
