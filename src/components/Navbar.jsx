@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Moon, Sun, Github, Linkedin } from 'lucide-react'
+import { Menu, X, Moon, Sun, Github, Linkedin } from "lucide-react"
 import { useTheme } from "./ThemeProvider"
+import { scrollToSection, getActiveSection } from "../utils/scrollHelper"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,21 +23,8 @@ const Navbar = () => {
         setIsScrolled(false)
       }
 
-      // Determine active section based on scroll position
-      const sections = ["home", "projects", "about", "testimonials", "contact"];
-      
-      // Find the section that is currently in view
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // If the section is in view (with some buffer for better UX)
-          if (rect.top <= 150 && rect.bottom >= 100) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
+      // Update active section based on scroll position
+      setActiveSection(getActiveSection())
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -52,35 +40,17 @@ const Navbar = () => {
     { name: "Home", id: "home" },
     { name: "Projects", id: "projects" },
     { name: "About", id: "about" },
+    { name: "Blog", id: "blog" }, // Add Blog link
     { name: "Testimonials", id: "testimonials" },
     { name: "Contact", id: "contact" },
   ]
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      // Close the menu first
-      setIsMenuOpen(false);
-      
-      // Get the navbar height to offset the scroll
-      const navbar = document.querySelector('header');
-      const navbarHeight = navbar ? navbar.offsetHeight : 80;
-      
-      // Calculate the element's position
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      
-      // Scroll to the element with offset
-      window.scrollTo({
-        top: elementPosition - navbarHeight,
-        behavior: "smooth"
-      });
-      
-      // Update active section
-      setActiveSection(id);
-    } else {
-      console.error(`Element with id "${id}" not found`);
-    }
-  };
+  const handleNavClick = (e, id) => {
+    e.preventDefault()
+    setIsMenuOpen(false)
+    scrollToSection(id)
+    setActiveSection(id)
+  }
 
   return (
     <header
@@ -92,12 +62,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a 
-              href="#home" 
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection("home");
-              }}
+            <a
+              href="#home"
+              onClick={(e) => handleNavClick(e, "home")}
               className="font-playfair text-2xl font-bold tracking-tight transition-colors"
             >
               D-<span className="text-gray-500 dark:text-gray-400">Pace</span>
@@ -111,10 +78,7 @@ const Navbar = () => {
                 <a
                   key={link.id}
                   href={`#${link.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.id);
-                  }}
+                  onClick={(e) => handleNavClick(e, link.id)}
                   className="relative px-4 py-2 text-sm font-medium rounded-full transition-colors"
                 >
                   <span
@@ -220,10 +184,7 @@ const Navbar = () => {
                   <a
                     key={link.id}
                     href={`#${link.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.id);
-                    }}
+                    onClick={(e) => handleNavClick(e, link.id)}
                     className={`text-lg py-2 px-4 rounded-md transition-colors ${
                       activeSection === link.id
                         ? "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
@@ -265,3 +226,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

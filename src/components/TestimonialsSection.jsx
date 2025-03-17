@@ -73,8 +73,8 @@ const TestimonialsSection = () => {
   }
 
   return (
-    <section className="py-20">
-      <div className="container-custom mx-auto px-4">
+    <section id="testimonials" className="py-20 bg-white dark:bg-gray-900">
+      <div className="container-center mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Client Testimonials</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
