@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { ArrowRight, Download, Github } from "lucide-react"
 import { motion } from "framer-motion"
+import profilePicture from '../assets/pp.png';
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -162,7 +163,7 @@ const HeroSection = () => {
                 <div className="w-full h-full rounded-xl overflow-hidden relative">
                   {/* Replace with your actual image */}
                   <img
-                    src="./src/assets/pp.png"
+                    src={profilePicture}
                     alt="Dipesh Subedi"
                     className="w-full h-full object-cover"
                   />
