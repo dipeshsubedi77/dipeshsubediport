@@ -254,7 +254,7 @@ const AboutSection = () => {
                 <div className="aspect-[4/5] bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 rounded-2xl p-3 shadow-xl backdrop-blur-sm border border-white/20 dark:border-white/10">
                   <div className="w-full h-full rounded-xl overflow-hidden">
                     <img
-                      src="https://dipeshsubedi.info.np/images/WhatsApp_Image_2024-10-03_at_12.58.42_ad5e50bd-removebg.png"
+                      src="dipeshsubediport\src\assets\dipesh.jpg"
                       alt="John Doe"
                       className="w-full h-full object-cover"
                     />
