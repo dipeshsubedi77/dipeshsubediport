@@ -162,7 +162,7 @@ const HeroSection = () => {
                 <div className="w-full h-full rounded-xl overflow-hidden relative">
                   {/* Replace with your actual image */}
                   <img
-                    src="https://dipeshsubedi.info.np/images/WhatsApp_Image_2024-10-03_at_12.58.42_ad5e50bd-removebg.png"
+                    src="./src/assets/dipesh.jpg"
                     alt="Portrait of John Doe"
                     className="w-full h-full object-cover"
                   />
