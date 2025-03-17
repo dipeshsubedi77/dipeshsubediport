@@ -163,7 +163,7 @@ const HeroSection = () => {
                   {/* Replace with your actual image */}
                   <img
                     src="dipeshsubediport\src\assets\dipesh.jpg"
-                    alt="Portrait of John Doe"
+                    alt="Dipesh Subedi"
                     className="w-full h-full object-cover"
                   />
 

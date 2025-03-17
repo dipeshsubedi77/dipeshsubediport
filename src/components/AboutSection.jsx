@@ -255,7 +255,7 @@ const AboutSection = () => {
                   <div className="w-full h-full rounded-xl overflow-hidden">
                     <img
                       src="dipeshsubediport\src\assets\dipesh.jpg"
-                      alt="John Doe"
+                      alt="Dipesh Subedi"
                       className="w-full h-full object-cover"
                     />
                   </div>
